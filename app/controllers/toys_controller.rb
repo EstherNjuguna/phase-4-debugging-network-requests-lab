@@ -1,4 +1,5 @@
 class ToysController < ApplicationController
+  rescue_from(ActiveRecord::RecordNotFound, with: :resp_not_found)
   wrap_parameters format: []
 
   def index
@@ -14,6 +15,7 @@ class ToysController < ApplicationController
   def update
     toy = Toy.find_by(id: params[:id])
     toy.update(toy_params)
+    render(jon: toy, status: :accepted)
   end
 
   def destroy
@@ -27,5 +29,7 @@ class ToysController < ApplicationController
   def toy_params
     params.permit(:name, :image, :likes)
   end
-
+  def resp_not_found
+		render(json: {error: "We could not find what you are looking for"}, status: :not_found)
+	end
 end
