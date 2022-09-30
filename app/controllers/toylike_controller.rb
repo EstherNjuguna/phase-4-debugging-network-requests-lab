@@ -1,0 +1,3 @@
+class ToylikeController < ApplicationController
+    
+end
